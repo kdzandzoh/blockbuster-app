@@ -1,0 +1,100 @@
+{% load static %}
+
+    <header>
+        <img src="{% static 'images/logo.png' %}" id="logo" alt="Blockbuster logo">
+        <div class="toggle-button" onclick="toggle();"></div>
+        <nav class="nav">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'movies' %}">Collection</a></li>
+                {% if request.user.is_authenticated %}
+                    {% for group in request.user.groups.all %}
+                        {% if group.name == 'admins' %}
+                            <li><a href="{% url 'add' %}">Add movies</a></li>
+                        {% elif group.name == 'clients' %}
+                            <li><a href="{% url 'my_movies' %}">My Movies</a></li>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <span class="bar"></span>
+                {% if user.is_authenticated %}
+                    {% for group in request.user.groups.all %}
+                        {% if 'admins' == group.name or 'clients' == group.name and request.user.client.name is None %}
+                            <li><p>Hello, {{ request.user.username }}</p></li>
+                        {% elif 'clients' == group.name %}
+                            <li><p>Hello, {{ request.user.client.name }}</p></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% for group in request.user.groups.all %}
+                        {% if 'clients' == group.name %} 
+                        <li><a href="{% url 'profile' %}">Profile</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    <li><a href="{% url 'logout' %}">Log out</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <script>
+        function toggle() {
+            console.log('Toggle')
+            const toggleButton = document.querySelector('.toggle-button');
+            const toggleMenu = document.querySelector('.nav');
+            toggleMenu.classList.toggle('active')
+            toggleButton.classList.toggle('active')
+        }
+    </script>
+
+<!--
+<header>
+        <nav class="nav">
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'movies' %}">Collection</a></li>
+                {% if request.user.is_authenticated %}
+                    {% for group in request.user.groups.all %}
+                        {% if group.name == 'admins' %}
+                            <li><a href="{% url 'add' %}">Add movies</a></li>
+                        {% elif group.name == 'clients' %}
+                            <li><a href="{% url 'my_movies' %}">My Movies</a></li>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </ul>
+    
+            <ul class="nav-links">
+                <li><img src="{% static 'images/logo2.png' %}" id="logo" style="width: 100px;"></li>
+            </ul>
+    
+            <ul class="nav-links">
+                {% if user.is_authenticated %}
+                    {% for group in request.user.groups.all %}
+                        {% if 'admins' == group.name or 'clients' == group.name and request.user.client.name is None %}
+                            <li><p>Hello, {{ request.user.username }}</p></li>
+                        {% elif 'clients' == group.name %}
+                            <li><p>Hello, {{ request.user.client.name }}</p></li>
+                        {% endif %}
+                    {% endfor %}
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                    <li><a href="{% url 'logout' %}">Log out</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <div class="toggle-button" onclick="toggle();"></div>
+    </header>
+    <script>
+        function toggle() {
+            console.log('Toggle')
+            const toggleButton = document.querySelector('.toggle-button');
+            const toggleMenu = document.querySelector('.nav');
+            toggleMenu.classList.toggle('active')
+            toggleButton.classList.toggle('active')
+        }
+    </script>
+-->

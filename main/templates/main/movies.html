@@ -1,0 +1,79 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    Collection
+{% endblock %}
+
+{% block content %}
+<body>
+    <section class="main-content landing">
+        <form method="GET" class="filter-form">
+            <div class="filter">
+                {{ filter.form }}
+            </div>
+
+            <div class="options">
+
+                <div class="radio">
+                    {% if choice == 'All' %}
+                        <input type="radio" id="Available" name="choice" value="Available">
+                        <label for="Available">Available</label>
+    
+                        <input type="radio" id="All" name="choice" value="All" checked="checked">
+                        <label for="All">All</label>
+    
+                        <input type="radio" id="Rented" name="choice" value="Rented">
+                        <label for="Rented">Rented</label>
+                    {% elif choice == 'Rented' %}
+                        <input type="radio" id="Available" name="choice" value="Available">
+                        <label for="Available">Available</label>
+    
+                        <input type="radio" id="All" name="choice" value="All">
+                        <label for="All">All</label>
+    
+                        <input type="radio" id="Rented" name="choice" value="Rented" checked="checked">
+                        <label for="Rented">Rented</label>
+                    {% else %}
+                        <input type="radio" id="Available" name="choice" value="Available" checked="checked">
+                        <label for="Available">Available</label>
+    
+                        <input type="radio" id="All" name="choice" value="All">
+                        <label for="All">All</label>
+    
+                        <input type="radio" id="Rented" name="choice" value="Rented">
+                        <label for="Rented">Rented</label>
+                    {% endif %}
+                </div>
+    
+                <div class="container">
+                    <input type="hidden">
+                    <button type="submit" id="filter-btn" name="FilterButton">Filter</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="parent">
+            {% for movie in all_movies %}
+                <div class="movie">
+                    <h3>{{ movie.name }}</h3>
+                    <h4>{{ movie.year }} | {{ movie.genre }}</h4>
+                    <p>{{ movie.description }}</p>
+                    <img src="https://image.tmdb.org/t/p/w200{{ movie.image_url }}">
+
+                    {% if movie.owner is None %}
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="rented-movie" value="{{ movie.name }}">
+                            <button type="submit" name="RentMovie" value="Rent now!">Rent now!</button>
+                        </form>
+                    {% else %}
+                        <p>Owned by {{ movie.owner }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+</body>
+
+    
+{% endblock %}

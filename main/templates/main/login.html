@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block content %}
+<body>
+    <section class="main-content"> <!--Header-->
+        <div class="card" id="user-log"> <!--Main header-->
+            <h1>Login</h1>
+            <hr>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Username">
+                <input type="password" name="password" placeholder="Password">
+                <button type="submit" name="SignIn">Login</button>
+            </form>
+            <p>Don't have an account?<a href="{% url 'register' %}"> Register</a></p>
+        </div>
+    </section>
+</body>
+{% endblock %}

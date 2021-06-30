@@ -1,0 +1,36 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    Search movies
+{% endblock %}
+
+{% block content %}
+    <h2>Search for your movie!</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Search movie">
+        <button type="submit" name="SearchMovie">Search</button>
+    </form>
+
+    {% if movies %}
+        {% for movie in movies %}
+        <h2>{{ movie.name }}</h2>
+        <p>{{ movie.overview }}</p>
+        <p>{{ movie.poster_path }}</p>
+        <img src="{{ path }}{{ movie.image_url }}" alt="{{ movie.name }} poster">
+
+
+        <!-- Make this a search filter after - All available, etc... -->
+        {% if movie.owner is None %}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="rented-movie" value="{{ movie.name }}">
+                <button type="submit" name="RentMovie">Rent now!</button>
+            </form>
+        {% else %}
+            <p>Currently rented by another client</p>
+        {% endif %}
+
+        {% endfor %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/style2.css' %}">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Poppins:300,400,600,700&amp;lang=en" />
+</head>
+<body>
+    {% include 'main/includes/navbar.html' %}
+
+    {% if messages %}
+                {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="message msg error">
+                        <p>{{ message }}</p>
+                        <button id="btn">X</button>
+                    </div>
+                    {% else %}
+                    <div class="message msg success">
+                        <p>{{ message }}</p>
+                        <button id="btn">X</button>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+
+        <script>
+            const buttons = document.querySelectorAll('[id=btn]');
+            console.log(buttons);
+            buttons.forEach(btn => {
+                btn.onclick = () => {
+                    console.log('Clicked');
+                    const text = document.querySelector('.msg');
+                    btn.remove();
+                    text.remove();
+                }})
+            
+        </script>
+    {% endif %}
+
+    {% block content %}
+
+    {% endblock %}
+</body>
+</html>

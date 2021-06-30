@@ -1,0 +1,48 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block content %}
+    <body>
+        <section class="main-content">
+            <div class="card" id="user-log">
+                <h1>Register</h1>
+                <hr class="margin-bot">
+                <div class="btn-group">
+                    <button id="btn1" name="register" class="selected">Client</button>
+                    <button type="button" id="btn2" name="register">Admin</button>
+                </div>
+        
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="text" placeholder="Username" name="username">
+                    <input type="text" placeholder="Email address" name="email">
+                    <input type="password" placeholder="Password" name="password">
+                    <input type="password" placeholder="Confirm password" name="password2">    
+
+                    <input type="hidden" id="type" name="register" value="client">
+                    <button type="submit" name="Submit">Register</button>
+                </form>
+                <p>Already have an account?<a href="{% url 'login' %}"> Sign in</a></p>
+            </div>
+        </section>
+    </body>
+
+    <script>
+        const btn1 = document.getElementById('btn1');
+        const btn2 = document.getElementById('btn2');
+        const input = document.getElementById('type')
+        btn1.onclick = () => {
+            btn1.classList.add('selected')
+            btn2.classList.remove('selected')
+            input.value = "client"
+        }
+        btn2.onclick = () => {
+            btn1.classList.remove('selected')
+            btn2.classList.add('selected')
+            input.value = "admin"
+        }
+    </script>
+{% endblock %}

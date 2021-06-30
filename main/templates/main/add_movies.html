@@ -1,0 +1,42 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    Add movies
+{% endblock %}
+
+{% block content %}
+    {% if not all_movies %}
+    <body>
+        <section class="main-content">
+            <div class="card">
+                <h1>Add movies!</h1>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="name" placeholder="Movie title">
+                    <button type="submit" name="SearchMovie">Submit</button>
+                </form>
+            </div>
+        </section>
+    </body>
+        
+    {% endif %}
+
+    <div class="content">
+        <div class="parent">
+            {% for movie in all_movies %}
+            <div class="movie">
+                <h3>{{ movie.name }}</h3>
+                <h4>{{ movie.year }}: {{ movie.genre }}</h4>
+                <p>{{ movie.description }}</p>
+                <img src="https://image.tmdb.org/t/p/w200{{ movie.image_url }}">
+    
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="added-movie" value="{{ movie.name }}|{{  movie.description }}|{{  movie.year }}|{{ movie.genre }}|{{ movie.movie_id}}|{{  movie.image_url }}">
+                    <button type="submit" name="AddMovie">Add to library</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

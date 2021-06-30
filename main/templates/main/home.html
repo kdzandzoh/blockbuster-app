@@ -1,0 +1,15 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+<body>
+    <section class="main-content landing">
+        <h1>Blockbuster</h1>
+        <h1>Movie Night Is Back</h1>
+        <button><a style="color: black;" href="{% url 'movies' %}">Get started!</a></button>
+    </section>
+</body>
+{% endblock %}

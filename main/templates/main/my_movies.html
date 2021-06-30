@@ -1,0 +1,45 @@
+{% extends 'main/base.html' %}
+
+{% load main_tags %}
+
+{% block title %}
+    My Movies
+{% endblock %}
+
+{% block content %}
+    {% if movies|length > 0%}
+        <div class="background-color">
+            <div class="parent">
+                {% for movie in movies %}
+                    <div class="movie">
+                            <h3>{{ movie.name }}</h3>
+                            <h4>{{ movie.year }}: {{ movie.genre }}</h4>
+                            <p>{{ movie.description }}</p>
+                            <img src="https://image.tmdb.org/t/p/w200{{ movie.image_url }}">
+                            {% if movie.due_date|check_date is 1 %}
+                                <p>Movie is overdue by {{ movie.due_date|split_timesince }} days: <strong>${{ movie.due_date|calculate_fee }}</strong></p>
+                            {% elif movie.due_date|check_date is -1 %}
+                                <p><strong>Due in: </strong>{{ movie.due_date|convert_to_days }} days</p>
+                            {% else %}
+                                <p>The movie is due today!</p>
+                            {% endif %}
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="returned-movie" value="{{ movie.name }}">
+                                <button type="submit" name="Return" value="Return">Return</button>
+                            </form>
+                    </div>
+                    {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <body>
+            <section class="main-content">
+                <div class="card">
+                        <h1>You don't have any movies rented right now</h2>
+                        <button ><a href="{% url 'movies' %}">Rent now</a></button>
+                </div>
+            </section>
+        </body>
+    {% endif %}
+{% endblock %}

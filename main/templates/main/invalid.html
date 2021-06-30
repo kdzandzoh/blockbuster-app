@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Not Authorized
+{% endblock %}
+
+{% block content %}
+<body>
+    <section class="main-content">
+        <div class="card">
+            <h1>You are not authorized to view this page</h1>
+            <button><a href="{% url 'home' %}">Go back</a></button>
+        </div>
+    </section>
+</body>
+{% endblock %}
