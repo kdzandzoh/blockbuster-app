@@ -1,6 +1,6 @@
 # Blockbuster App
 
-Fully responsive Blockbuster app created using Django Rest Framework and custom CSS
+Fully responsive Blockbuster app created using Django on the backend, HTML and custom CSS on the frontend
 
 ## Demo
 ![](Blockbuster-app.gif)
